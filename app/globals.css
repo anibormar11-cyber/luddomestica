@@ -1,26 +1,156 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+* { box-sizing: border-box; }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1e3a5f;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Animations ── */
+@keyframes float {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  33%      { transform: translateY(-20px) rotate(1.5deg); }
+  66%      { transform: translateY(-10px) rotate(-1deg); }
+}
+@keyframes floatSlow {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50%     { transform: translateY(-28px) rotate(2deg); }
+}
+@keyframes floatFast {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-14px); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(40px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes letterReveal {
+  from { opacity:0; transform: translateY(24px); filter: blur(6px); }
+  to   { opacity:1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.25); }
+  70%  { box-shadow: 0 0 0 18px rgba(37,99,235,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Utility classes ── */
+.float        { animation: float 6s ease-in-out infinite; }
+.float-slow   { animation: floatSlow 9s ease-in-out infinite; }
+.float-fast   { animation: floatFast 4s ease-in-out infinite; }
+.fade-up      { animation: fadeUp 0.9s ease both; }
+
+/* ── 3D floating variants for hero appliances ── */
+@keyframes float3D-1 {
+  0%,100% { transform: perspective(900px) rotateY(-14deg) rotateX(5deg) translateY(0px); }
+  50%     { transform: perspective(900px) rotateY(-9deg)  rotateX(8deg) translateY(-22px); }
+}
+@keyframes float3D-2 {
+  0%,100% { transform: perspective(900px) rotateY(11deg)  rotateX(-4deg) translateY(0px); }
+  50%     { transform: perspective(900px) rotateY(15deg)  rotateX(-7deg) translateY(-18px); }
+}
+@keyframes float3D-3 {
+  0%,100% { transform: perspective(900px) rotateY(-7deg)  rotateX(6deg) translateY(0px); }
+  50%     { transform: perspective(900px) rotateY(-11deg) rotateX(3deg) translateY(-26px); }
+}
+.float-3d-1 { animation: float3D-1 7s ease-in-out infinite; }
+.float-3d-2 { animation: float3D-2 9s ease-in-out infinite; }
+.float-3d-3 { animation: float3D-3 5.5s ease-in-out infinite; }
+
+.gradient-text {
+  background: linear-gradient(135deg,#1e40af 0%,#2563eb 50%,#60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.shimmer-text {
+  background: linear-gradient(90deg,#1e40af 0%,#3b82f6 30%,#93c5fd 50%,#3b82f6 70%,#1e40af 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+.letter {
+  display: inline-block;
+  animation: letterReveal 0.55s ease both;
+}
+
+/* ── Nav ── */
+.nav-glass {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(37,99,235,0.1);
+}
+
+/* ── Hero ── */
+.hero-bg {
+  background: radial-gradient(ellipse 90% 70% at 50% -10%, #dbeafe 0%, #f0f7ff 40%, #fff 75%);
+}
+
+/* ── Cards ── */
+.pillar-card {
+  background: linear-gradient(145deg,#fff 0%,#f0f7ff 100%);
+  border: 1px solid rgba(37,99,235,0.1);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.07), 0 2px 8px rgba(37,99,235,0.04);
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.4s ease;
+}
+.pillar-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 24px 64px rgba(37,99,235,0.16), 0 6px 20px rgba(37,99,235,0.1);
+  border-color: rgba(37,99,235,0.25);
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid rgba(37,99,235,0.1);
+  box-shadow: 0 6px 24px rgba(37,99,235,0.06);
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.4s ease;
+  cursor: default;
+}
+.product-card:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 32px 80px rgba(37,99,235,0.18), 0 8px 24px rgba(37,99,235,0.1);
+  border-color: rgba(37,99,235,0.3);
+}
+
+/* ── CTA button ── */
+.btn-cta {
+  background: linear-gradient(135deg,#1e40af 0%,#2563eb 100%);
+  box-shadow: 0 8px 28px rgba(37,99,235,0.35);
+  transition: all 0.3s ease;
+}
+.btn-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(37,99,235,0.45);
+}
+.btn-cta:active { transform: translateY(0); }
+
+/* ── Pulse ring on icon ── */
+.pulse-ring { animation: pulseRing 2.5s ease infinite; }
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
