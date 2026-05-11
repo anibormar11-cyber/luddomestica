@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import type { ReactElement } from 'react'
 
 /* ─── Hero appliance SVGs ─── */
@@ -201,6 +201,7 @@ const SLOGAN = 'Limpio, Útil y Duradero'
 
 /* ─── Main Page ─── */
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const revealRefs = useRef<HTMLElement[]>([])
 
   useEffect(() => {
@@ -235,10 +236,33 @@ export default function Home() {
             <a href="#contacto" className="hover:text-blue-600 transition-colors duration-200">Contacto</a>
           </div>
 
-          <a href="mailto:luddomestica@gmail.com" className="btn-cta text-white text-sm font-bold px-5 py-2.5 rounded-full">
-            Contáctanos
-          </a>
+          <div className="flex items-center gap-3">
+            <a href="mailto:luddomestica@gmail.com" className="btn-cta text-white text-sm font-bold px-5 py-2.5 rounded-full hidden sm:block">
+              Contáctanos
+            </a>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menú"
+              className="md:hidden flex flex-col items-center justify-center w-9 h-9 gap-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div className="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md px-6 py-4 flex flex-col gap-1">
+            <a href="#nosotros" onClick={() => setMenuOpen(false)} className="py-3 text-slate-700 font-semibold border-b border-slate-50">Nosotros</a>
+            <a href="/catalogo" onClick={() => setMenuOpen(false)} className="py-3 text-slate-700 font-semibold border-b border-slate-50">Catálogo</a>
+            <a href="#contacto" onClick={() => setMenuOpen(false)} className="py-3 text-slate-700 font-semibold border-b border-slate-50">Contacto</a>
+            <a href="mailto:luddomestica@gmail.com" className="btn-cta text-white font-bold px-5 py-3 rounded-2xl text-center mt-3">
+              Contáctanos
+            </a>
+          </div>
+        )}
       </nav>
 
       {/* ══ HERO ══ */}
@@ -257,8 +281,8 @@ export default function Home() {
         <div className="absolute top-16 right-1/3 w-96 h-96 rounded-full bg-blue-200 opacity-25 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-10 w-80 h-80 rounded-full bg-blue-300 opacity-15 blur-3xl pointer-events-none" />
 
-        {/* Floating appliances */}
-        <div className="absolute inset-0 pointer-events-none select-none">
+        {/* Floating appliances — hidden on mobile to avoid overlapping text */}
+        <div className="absolute inset-0 pointer-events-none select-none hidden md:block">
           <div className="float-3d-1 absolute right-[6%] top-[10%]">
             <FridgeSVG className="w-44 h-auto" style={{ filter: 'drop-shadow(0 28px 48px rgba(37,99,235,0.3))' }} />
           </div>
@@ -274,8 +298,8 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative max-w-6xl mx-auto px-6 py-28">
-          <div className="max-w-lg">
+        <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-28">
+          <div className="max-w-lg mx-auto md:mx-0 text-center md:text-left">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-white border border-blue-200 text-blue-700 text-xs font-bold px-4 py-2 rounded-full mb-7 shadow-sm fade-up" style={{ animationDelay: '0.1s' }}>
               <span className="w-2 h-2 rounded-full bg-blue-500" style={{ boxShadow: '0 0 0 0 rgba(59,130,246,0.5)', animation: 'pulseRing 2s ease infinite' }} />
@@ -283,14 +307,14 @@ export default function Home() {
             </div>
 
             {/* Title */}
-            <h1 className="text-6xl md:text-7xl font-black leading-none mb-5 fade-up" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black leading-none mb-5 fade-up" style={{ animationDelay: '0.2s' }}>
               <span className="gradient-text">LUD</span>
               <br />
               <span className="text-slate-800">Doméstica</span>
             </h1>
 
             {/* Slogan animated */}
-            <p className="text-2xl md:text-3xl font-bold text-blue-600 mb-6 leading-snug" aria-label={SLOGAN}>
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 mb-6 leading-snug" aria-label={SLOGAN}>
               {SLOGAN.split('').map((char, i) => (
                 <span
                   key={i}
@@ -302,13 +326,13 @@ export default function Home() {
               ))}
             </p>
 
-            <p className="text-lg text-slate-500 leading-relaxed mb-10 fade-up" style={{ animationDelay: '0.6s' }}>
+            <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-10 fade-up" style={{ animationDelay: '0.6s' }}>
               Todo lo que necesita tu hogar en un solo lugar. Lavadoras, frigoríficos, televisores
               y mucho más. Calidad garantizada y atención personalizada.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-12 fade-up" style={{ animationDelay: '0.75s' }}>
+            <div className="flex flex-col sm:flex-row gap-4 mb-12 fade-up justify-center md:justify-start" style={{ animationDelay: '0.75s' }}>
               <a href="#productos" className="btn-cta text-white font-bold px-8 py-4 rounded-2xl text-center text-base">
                 Ver productos
               </a>
@@ -322,7 +346,7 @@ export default function Home() {
             </div>
 
             {/* Mini stats */}
-            <div className="flex flex-wrap gap-6 fade-up" style={{ animationDelay: '0.9s' }}>
+            <div className="flex flex-wrap gap-6 fade-up justify-center md:justify-start" style={{ animationDelay: '0.9s' }}>
               {stats.map((s) => (
                 <div key={s.label} className="flex flex-col">
                   <span className="text-2xl font-black gradient-text">{s.value}</span>
@@ -416,7 +440,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6">
           <div
             ref={addReveal}
-            className="reveal rounded-3xl p-14 md:p-20 text-center relative overflow-hidden"
+            className="reveal rounded-3xl p-8 sm:p-14 md:p-20 text-center relative overflow-hidden"
             style={{
               background: 'linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 50%,#3b82f6 100%)',
               boxShadow: '0 40px 100px rgba(37,99,235,0.35)',
@@ -436,10 +460,10 @@ export default function Home() {
 
             <div className="relative">
               <span className="inline-block text-blue-200 text-xs font-bold tracking-widest uppercase mb-5">Contacto</span>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-5 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-5 leading-tight">
                 ¿Buscas algo<br />concreto?
               </h2>
-              <p className="text-blue-100 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+              <p className="text-blue-100 text-base sm:text-lg mb-10 max-w-md mx-auto leading-relaxed">
                 Escríbenos y te ayudamos a encontrar el electrodoméstico perfecto para tu hogar y tu presupuesto.
               </p>
               <a

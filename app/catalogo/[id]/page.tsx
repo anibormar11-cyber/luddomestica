@@ -91,7 +91,7 @@ export default function ProductDetailPage() {
           <div className="grid md:grid-cols-2 gap-12 items-start">
 
             {/* Left – Image */}
-            <div className="sticky top-24">
+            <div className="md:sticky md:top-24">
               <div className="rounded-3xl overflow-hidden border border-slate-100 shadow-xl shadow-blue-50">
                 {product.image_url ? (
                   <Image
@@ -124,13 +124,13 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Name */}
-              <h1 className="text-3xl md:text-4xl font-black text-slate-800 leading-tight mb-6">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-800 leading-tight mb-6">
                 {product.name}
               </h1>
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-8 pb-8 border-b border-slate-100">
-                <span className="text-5xl font-black gradient-text">{product.price.toFixed(2)} €</span>
+                <span className="text-4xl sm:text-5xl font-black gradient-text">{product.price.toFixed(2)} €</span>
                 <span className="text-slate-400 text-sm mb-2">IVA incluido</span>
               </div>
 
