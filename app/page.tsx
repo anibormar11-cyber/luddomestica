@@ -436,8 +436,8 @@ export default function Home() {
       </section>
 
       {/* ══ CONTACT ══ */}
-      <section id="contacto" className="py-28 bg-white">
-        <div className="max-w-5xl mx-auto px-6">
+      <section id="contacto" className="py-16 sm:py-28 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div
             ref={addReveal}
             className="reveal rounded-3xl p-8 sm:p-14 md:p-20 text-center relative overflow-hidden"
@@ -468,13 +468,14 @@ export default function Home() {
               </p>
               <a
                 href="mailto:luddomestica@gmail.com"
-                className="inline-flex items-center gap-3 bg-white text-blue-700 font-bold px-10 py-4 rounded-2xl text-lg transition-all hover:-translate-y-1"
+                className="inline-flex items-center justify-center gap-3 bg-white text-blue-700 font-bold px-6 sm:px-10 py-4 rounded-2xl text-sm sm:text-lg transition-all hover:-translate-y-1 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto"
                 style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.15)' }}
               >
-                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 flex-shrink-0">
                   <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
-                luddomestica@gmail.com
+                <span className="hidden sm:inline">luddomestica@gmail.com</span>
+                <span className="sm:hidden">Escríbenos</span>
               </a>
               <p className="text-blue-300 text-sm mt-6">Respondemos en menos de 24 horas</p>
             </div>
