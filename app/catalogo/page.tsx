@@ -57,14 +57,15 @@ function ProductCard({ product }: { product: Product }) {
     <Link href={`/catalogo/${product.id}`} className="group">
       <article className="product-card rounded-2xl overflow-hidden flex flex-col h-full">
         {/* Image */}
-        <div className="relative overflow-hidden">
+        {/* Image — fixed height, object-contain so product isn't cropped */}
+        <div className="relative bg-white h-52 flex items-center justify-center overflow-hidden">
           {product.image_url ? (
             <Image
               src={product.image_url}
               alt={product.name}
               width={400}
               height={208}
-              className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-52 object-contain p-4 group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
             <ProductPlaceholder category={product.category} />
@@ -76,10 +77,9 @@ function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Info */}
-        <div className="p-5 flex flex-col flex-1">
-          <p className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">{product.brand}</p>
-          <h3 className="font-bold text-slate-800 text-sm leading-snug mb-1 flex-1">{product.name}</h3>
-          <p className="text-xs text-slate-400 mb-4">{product.model}</p>
+        <div className="p-5 flex flex-col flex-1 border-t border-slate-50">
+          <p className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1.5">{product.brand}</p>
+          <h3 className="font-bold text-slate-800 text-sm leading-snug flex-1 line-clamp-2 mb-4">{product.name}</h3>
 
           <div className="flex items-center justify-between">
             <span className="text-xl font-black gradient-text">{product.price.toFixed(2)} €</span>
@@ -104,7 +104,7 @@ export default function CatalogoPage() {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('category', { ascending: true })
 
       if (!error && data) {
         setProducts(data)

@@ -99,7 +99,7 @@ export default function ProductDetailPage() {
                     alt={product.name}
                     width={600}
                     height={500}
-                    className="w-full object-cover"
+                    className="w-full h-96 object-contain p-6 bg-white"
                   />
                 ) : (
                   <div
@@ -124,10 +124,9 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Name */}
-              <h1 className="text-3xl md:text-4xl font-black text-slate-800 leading-tight mb-2">
+              <h1 className="text-3xl md:text-4xl font-black text-slate-800 leading-tight mb-6">
                 {product.name}
               </h1>
-              <p className="text-slate-400 text-sm mb-6">Modelo: <span className="font-semibold text-slate-600">{product.model}</span></p>
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-8 pb-8 border-b border-slate-100">
@@ -139,7 +138,11 @@ export default function ProductDetailPage() {
               {product.description && (
                 <div className="mb-8">
                   <h2 className="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3">Descripción</h2>
-                  <p className="text-slate-600 leading-relaxed">{product.description}</p>
+                  <div className="text-slate-600 leading-relaxed space-y-2">
+                    {product.description.split('\n').filter(Boolean).map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
                 </div>
               )}
 

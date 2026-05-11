@@ -192,7 +192,7 @@ const pillars = [
 
 const stats = [
   { value: '8+',   label: 'Categorías' },
-  { value: '500+', label: 'Productos' },
+  { value: '188+', label: 'Productos' },
   { value: '24h',  label: 'Respuesta' },
   { value: '100%', label: 'Garantía' },
 ]
