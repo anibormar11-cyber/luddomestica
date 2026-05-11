@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import type { ReactElement } from 'react'
 
 /* ─── Hero appliance SVGs ─── */
-function WashingMachineSVG({ className }: { className?: string }) {
+function WashingMachineSVG({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 120 140" className={className} fill="none">
+    <svg viewBox="0 0 120 140" className={className} style={style} fill="none">
       <rect x="4" y="4" width="112" height="132" rx="16" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2"/>
       <rect x="4" y="4" width="112" height="34" rx="16" fill="#dbeafe"/>
       <rect x="4" y="24" width="112" height="14" fill="#dbeafe"/>
@@ -20,9 +21,9 @@ function WashingMachineSVG({ className }: { className?: string }) {
   )
 }
 
-function FridgeSVG({ className }: { className?: string }) {
+function FridgeSVG({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 100 170" className={className} fill="none">
+    <svg viewBox="0 0 100 170" className={className} style={style} fill="none">
       <rect x="4" y="4" width="92" height="162" rx="14" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2"/>
       <rect x="4" y="4" width="92" height="64" rx="14" fill="#dbeafe" opacity="0.6"/>
       <rect x="4" y="54" width="92" height="14" fill="#dbeafe"/>
@@ -38,9 +39,9 @@ function FridgeSVG({ className }: { className?: string }) {
   )
 }
 
-function TvSVG({ className }: { className?: string }) {
+function TvSVG({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 180 135" className={className} fill="none">
+    <svg viewBox="0 0 180 135" className={className} style={style} fill="none">
       <rect x="4" y="4" width="172" height="104" rx="13" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2"/>
       <rect x="14" y="14" width="152" height="84" rx="8" fill="#dbeafe" opacity="0.75"/>
       <rect x="22" y="20" width="50" height="32" rx="6" fill="white" opacity="0.5"/>
@@ -52,9 +53,9 @@ function TvSVG({ className }: { className?: string }) {
   )
 }
 
-function MicrowaveSVG({ className }: { className?: string }) {
+function MicrowaveSVG({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 165 110" className={className} fill="none">
+    <svg viewBox="0 0 165 110" className={className} style={style} fill="none">
       <rect x="4" y="10" width="157" height="90" rx="13" fill="#eff6ff" stroke="#93c5fd" strokeWidth="2"/>
       <rect x="12" y="18" width="100" height="74" rx="10" fill="#dbeafe" stroke="#60a5fa" strokeWidth="1.5"/>
       <rect x="20" y="26" width="84" height="58" rx="7" fill="#eff6ff" opacity="0.6"/>
@@ -68,7 +69,7 @@ function MicrowaveSVG({ className }: { className?: string }) {
 }
 
 /* ─── Product icons (white on blue bg) ─── */
-const icons: Record<string, JSX.Element> = {
+const icons: Record<string, ReactElement> = {
   washing: (
     <svg viewBox="0 0 44 44" fill="none">
       <rect x="3" y="3" width="38" height="38" rx="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"/>
@@ -230,7 +231,7 @@ export default function Home() {
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
             <a href="#nosotros" className="hover:text-blue-600 transition-colors duration-200">Nosotros</a>
-            <a href="#productos" className="hover:text-blue-600 transition-colors duration-200">Productos</a>
+            <a href="/catalogo" className="hover:text-blue-600 transition-colors duration-200">Catálogo</a>
             <a href="#contacto" className="hover:text-blue-600 transition-colors duration-200">Contacto</a>
           </div>
 
@@ -259,16 +260,16 @@ export default function Home() {
         {/* Floating appliances */}
         <div className="absolute inset-0 pointer-events-none select-none">
           <div className="float-3d-1 absolute right-[6%] top-[10%]">
-            <FridgeSVG className="w-44 h-auto" style={{ filter: 'drop-shadow(0 28px 48px rgba(37,99,235,0.3))' } as React.CSSProperties} />
+            <FridgeSVG className="w-44 h-auto" style={{ filter: 'drop-shadow(0 28px 48px rgba(37,99,235,0.3))' }} />
           </div>
           <div className="float-3d-2 absolute right-[26%] top-[5%]">
-            <WashingMachineSVG className="w-36 h-auto" style={{ filter: 'drop-shadow(0 20px 36px rgba(37,99,235,0.25))' } as React.CSSProperties} />
+            <WashingMachineSVG className="w-36 h-auto" style={{ filter: 'drop-shadow(0 20px 36px rgba(37,99,235,0.25))' }} />
           </div>
           <div className="float-3d-3 absolute right-[3%] bottom-[12%]">
-            <TvSVG className="w-52 h-auto" style={{ filter: 'drop-shadow(0 24px 44px rgba(37,99,235,0.25))' } as React.CSSProperties} />
+            <TvSVG className="w-52 h-auto" style={{ filter: 'drop-shadow(0 24px 44px rgba(37,99,235,0.25))' }} />
           </div>
           <div className="float-3d-1 absolute left-[3%] bottom-[18%]" style={{ animationDelay: '2s' }}>
-            <MicrowaveSVG className="w-40 h-auto" style={{ filter: 'drop-shadow(0 16px 32px rgba(37,99,235,0.2))' } as React.CSSProperties} />
+            <MicrowaveSVG className="w-40 h-auto" style={{ filter: 'drop-shadow(0 16px 32px rgba(37,99,235,0.2))' }} />
           </div>
         </div>
 
@@ -381,7 +382,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
             {products.map((prod, i) => (
               <div
                 key={prod.key}
@@ -400,6 +401,12 @@ export default function Home() {
                 <p className="text-slate-400 text-xs leading-relaxed">{prod.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="text-center mt-4">
+            <a href="/catalogo" className="btn-cta text-white font-bold px-10 py-4 rounded-2xl inline-block">
+              Ver catálogo completo →
+            </a>
           </div>
         </div>
       </section>
