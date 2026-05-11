@@ -97,6 +97,8 @@ export default function CatalogoPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [filtered, setFiltered] = useState<Product[]>([])
   const [active, setActive] = useState('all')
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('default')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -106,19 +108,26 @@ export default function CatalogoPage() {
         .select('*')
         .order('category', { ascending: true })
 
-      if (!error && data) {
-        setProducts(data)
-        setFiltered(data)
-      }
+      if (!error && data) setProducts(data)
       setLoading(false)
     }
     fetchProducts()
   }, [])
 
-  function handleFilter(cat: string) {
-    setActive(cat)
-    setFiltered(cat === 'all' ? products : products.filter(p => p.category === cat))
-  }
+  useEffect(() => {
+    let result = active === 'all' ? products : products.filter(p => p.category === active)
+    if (query.trim()) {
+      const lower = query.toLowerCase()
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(lower) ||
+        p.brand.toLowerCase().includes(lower)
+      )
+    }
+    if (sort === 'price-asc')  result = [...result].sort((a, b) => a.price - b.price)
+    if (sort === 'price-desc') result = [...result].sort((a, b) => b.price - a.price)
+    if (sort === 'brand-az')   result = [...result].sort((a, b) => a.brand.localeCompare(b.brand))
+    setFiltered(result)
+  }, [products, active, query, sort])
 
   return (
     <>
@@ -143,7 +152,7 @@ export default function CatalogoPage() {
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.value}
-                  onClick={() => handleFilter(cat.value)}
+                  onClick={() => setActive(cat.value)}
                   className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all flex-shrink-0 ${
                     active === cat.value
                       ? 'bg-blue-600 text-white shadow-md shadow-blue-200'
@@ -162,8 +171,35 @@ export default function CatalogoPage() {
           </div>
         </div>
 
+        {/* Search + Sort */}
+        <div className="max-w-6xl mx-auto px-6 pt-8 pb-2 flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1">
+            <svg viewBox="0 0 20 20" fill="none" className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none">
+              <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M13 13l3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Buscar por nombre o marca..."
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
+            />
+          </div>
+          <select
+            value={sort}
+            onChange={e => setSort(e.target.value)}
+            className="px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-600 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 bg-white transition-all sm:w-52"
+          >
+            <option value="default">Ordenar por...</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="brand-az">Marca A–Z</option>
+          </select>
+        </div>
+
         {/* Grid */}
-        <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="max-w-6xl mx-auto px-6 py-6">
           {loading ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} />)}
@@ -171,10 +207,10 @@ export default function CatalogoPage() {
           ) : filtered.length === 0 ? (
             <div className="text-center py-24">
               <div className="text-6xl mb-4">📦</div>
-              <h3 className="text-xl font-bold text-slate-700 mb-2">Sin productos en esta categoría</h3>
-              <p className="text-slate-400 mb-6">Pronto añadiremos más productos aquí.</p>
+              <h3 className="text-xl font-bold text-slate-700 mb-2">Sin resultados</h3>
+              <p className="text-slate-400 mb-6">{query ? `No hay productos que coincidan con "${query}".` : 'Pronto añadiremos más productos aquí.'}</p>
               <button
-                onClick={() => handleFilter('all')}
+                onClick={() => { setActive('all'); setQuery(''); setSort('default') }}
                 className="btn-cta text-white font-bold px-6 py-3 rounded-xl"
               >
                 Ver todos
